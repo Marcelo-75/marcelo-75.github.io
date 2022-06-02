@@ -1,0 +1,337 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<title>Juego del Ahorcado</title>
+	<link rel="stylesheet" type="text/css" href="estilos/ahorcado-style.css">
+</head>
+<body>
+	<header>
+		<nav>
+			<div class="header">
+				<div class="logo"><img width="8%" height="8%" src="imagenes/horca.png"/></div>
+				<div class="logo texto"><p>Ahorcado by data</p></div>
+				<div class="textocabecera"><p>JUEGO DEL AHORCADO</p></div>
+			</div>
+		</nav>
+	</header>
+	<main>
+		<div class="main-container">
+			<div class="logo-alura"><img src="imagenes/logo-alura.png"></div>
+            <div class="botones">
+					<button class="button btn-inicio" id="btnInicio">Iniciar juego</button>
+					<button class="button btn-agregar" id="btnAgregar">Agregar nueva palabra</button>
+					<button hidden class="button btn-nuevo-juego" id="btnNuevoJuego">Nuevo Juego</button>
+					<button hidden class="button btn-desistir" id="btnDesistir">Desistir</button>
+            </div>
+		</div>
+		<div class="canvas">
+			<canvas hidden class="acanvas" id="canvasHorca" width="1200px" height="500px"></canvas>
+		</div>
+        <div hidden class="new-word" id="div-new-word">
+             <input type="text" class="nueva-palabra" id="nueva-palabra" placeholder="Agregar nueva palabra" maxlength="8" onfocus="inputOnFoco();" onblur="inputLostFoco();" onkeyup="inputAMayuscula(this);" onkeypress="return inputSoloLetras(event)"></input>
+			<button class="button btn-guardar-newword" id="btn-guardar-newword">Guardar palabra</button>
+			<button class="button btn-cancelar" id="btn-cancelar">Cancelar</button>
+			<label class="max-caracteres" id="lbl-max-caracteres">Máx. 8 caracteres - Solo letras</label>
+        </div>
+	</main>
+	<footer>
+		<div class="footer">
+			<div class="footer-cripto">
+				<p>Encrypter by Data</p>
+			</div>
+			<div class="footer-copy">
+				<p>&copy Copyright Datawork 2022</p>
+			</div>
+			<div class="footer-contacto">
+				<p>Contacto: marcelo.motto75@gmail.com</p>
+			</div>
+		</div>
+	</footer>
+</body>
+</html>
+<script>
+
+	var btnInicio = document.getElementById("btnInicio");
+	var btnAgregar = document.getElementById("btnAgregar");
+	var btnDesistir = document.getElementById("btnDesistir");
+	var btnNuevoJuego = document.getElementById("btnNuevoJuego");
+	var btnNuevaPalabra = document.getElementById("btn-guardar-newword");
+	var btnCancelarAgregar = document.getElementById("btn-cancelar");
+	var horca = document.getElementById("canvasHorca");
+	var dibujo = horca.getContext("2d");
+	var divNuevaPalabra = document.getElementById("div-new-word");
+	var err = 0;
+	var xPos = 0;
+	var palabra = ["ANTEOJOS","ESTUCHE","LLAVES","TERMO","CINTA","SELLO", "LLAVERO","LAPICERA","ANOTADOR","REGLA","CELULAR","CABLES","PARLANTE","CONTROL","BOTELLA","MACETA","PLANTA"];
+	var palabraAzar = "";
+	var letrasElegidas = [""];
+	var aciertos = 0;
+	var juegoTerminado = false;
+	var letranueva = false;
+
+	function dibujarHorca() {
+		// *** TABLERO ***
+		horca.removeAttribute("hidden");
+		document.addEventListener("keypress", BuscarLetra);
+		 //cuando se presione una tecla me fijo cual es (deberia hacerlo solo sobre el canvas pero aun no se como)
+
+		//linteTo(derecha-izquierda, arriba-abajo)
+	 	dibujo.strokeStyle = "darkblue";
+
+	 	if(err == 0) {
+		//Linea vertical larga - mastil
+		 	dibujo.lineWidth=6;
+			dibujo.beginPath();
+			dibujo.lineTo(400,60);
+			dibujo.lineTo(400,320);
+			dibujo.fill();
+			dibujo.stroke();
+
+			//Linea horizonal superior - mastil
+			dibujo.beginPath();
+		 	dibujo.lineWidth=6;
+			dibujo.lineTo(400,62);
+			dibujo.lineTo(570,62);
+			dibujo.fill();
+			dibujo.stroke();
+
+			//Linea vertical corta - mastil
+			dibujo.beginPath();
+		 	dibujo.lineWidth=6;
+			dibujo.lineTo(569,60);
+			dibujo.lineTo(569,100);
+			dibujo.fill();
+			dibujo.stroke();
+
+			//Linea horizonal inferior - mastil
+			dibujo.beginPath();
+		 	dibujo.lineWidth=6;
+			dibujo.lineTo(370,320);
+			dibujo.lineTo(605,320);
+			dibujo.fill();
+			dibujo.stroke();
+		}
+
+		//Cabeza del cuerpo
+	 	if(err == 1) {
+			dibujo.beginPath();
+		 	dibujo.lineWidth=4;
+			dibujo.arc(570,132,30,0,2 * Math.PI);
+			dibujo.stroke();
+		}
+		//Linea cuerpo
+	 	if(err == 2) {
+			dibujo.beginPath();
+		 	dibujo.lineWidth=3;
+			dibujo.lineTo(570,160);
+			dibujo.lineTo(570,260);
+			dibujo.fill();
+			dibujo.stroke();
+		}
+
+		//Linea brazo izquierdo
+	 	if(err == 3) {
+			dibujo.beginPath();
+		 	dibujo.lineWidth=3;
+			dibujo.lineTo(570,160);
+			dibujo.lineTo(540,220);
+			dibujo.fill();
+			dibujo.stroke();
+		}
+
+		//Linea brazo derecho
+	 	if(err == 4) {
+			dibujo.beginPath();
+		 	dibujo.lineWidth=3;
+			dibujo.lineTo(570,160);
+			dibujo.lineTo(600,220);
+			dibujo.fill();
+			dibujo.stroke();
+		}
+
+		//Linea pierna izquierda
+	 	if(err == 5) {
+			dibujo.beginPath();
+		 	dibujo.lineWidth=3;
+			dibujo.lineTo(570,259);
+			dibujo.lineTo(540,310);
+			dibujo.fill();
+			dibujo.stroke();
+		}
+
+		//Linea pierna derecha
+	 	if(err == 6) {
+			dibujo.beginPath();
+		 	dibujo.lineWidth=3;
+			dibujo.lineTo(570,259);
+			dibujo.lineTo(600,310);
+			dibujo.fill();
+			dibujo.stroke();
+
+			dibujo.beginPath();
+			dibujo.fillStyle = "darkblue";
+			dibujo.font = "21px Verdana"
+			dibujo.fillText("X X",552,132);
+
+			dibujo.beginPath();
+		 	dibujo.lineWidth=4;
+			dibujo.arc(570,150,10,Math.PI,2 * Math.PI);
+			dibujo.stroke();
+
+			dibujo.beginPath();
+			dibujo.fillStyle = "black";
+			dibujo.font = "35px Verdana"
+			dibujo.fillText("¡ ALPISTE PERDISTE !",620,200);
+
+			juegoTerminado = true;
+		}
+
+		btnInicio.setAttribute("hidden", "hidden");
+		btnAgregar.setAttribute("hidden", "hidden");
+		btnNuevoJuego.removeAttribute("hidden");
+		btnDesistir.removeAttribute("hidden");
+
+	}
+
+	function Iniciar() {
+		xPos = 0;
+		err = 0;
+		aciertos = 0;
+		letrasElegidas = [""];
+		juegoTerminado = false;
+		palabraAzar = palabra[Math.round(Math.random() * (palabra.length - 1) + 1)];
+
+		//Esta linea esta porque x alguna razon cada tanto la variable palabraAzar queda con valor undefined entonces vuelvo a sortear
+		if(palabraAzar==null) {palabraAzar = palabra[Math.round(Math.random() * (palabra.length - 1) + 1)];}
+
+		for (var i = 0; i <= palabraAzar.length - 1; i++) {
+		 	dibujo.strokeStyle = "darkblue";
+			dibujo.beginPath();
+			dibujo.lineWidth=4;
+			dibujo.lineTo(320+xPos,450);
+			dibujo.lineTo(370+xPos,450);
+			dibujo.stroke();
+			xPos = xPos + 70;
+		}
+		dibujarHorca();
+	}
+
+	function Agregar() {
+		divNuevaPalabra.removeAttribute("hidden");
+		document.getElementById("nueva-palabra").value = "";
+		btnInicio.setAttribute("hidden", "hidden");
+		btnAgregar.setAttribute("hidden", "hidden");
+	}
+
+	function AgregarNewWord() {
+		if(document.getElementById("nueva-palabra").value != "") {
+			palabra.push(document.getElementById("nueva-palabra").value);
+		} else { alert("Campo vacío, nada fue agregado");}
+		Desistir();
+	}
+
+	function CancelarAgregar() {
+		Desistir();
+	}
+
+	function Desistir() {
+		horca.setAttribute("hidden", "hidden");
+		btnDesistir.setAttribute("hidden", "hidden");
+		btnNuevoJuego.setAttribute("hidden", "hidden");
+		divNuevaPalabra.setAttribute("hidden","hidden");
+		btnInicio.removeAttribute("hidden");
+		btnAgregar.removeAttribute("hidden");
+
+		dibujo.beginPath();
+		dibujo.clearRect(300,60,1200,500);
+		dibujo.fillStyle = " #E9EDF7";
+	}
+
+	function Nuevo() {
+		dibujo.beginPath();
+		dibujo.clearRect(300,60,1200,500);
+		dibujo.fillStyle = " #E9EDF7";
+		Iniciar();
+	}
+
+	function inputOnFoco() {
+		document.getElementById("nueva-palabra").removeAttribute("placeholder");
+	}
+
+	function inputLostFoco() {
+		document.getElementById("nueva-palabra").setAttribute("placeholder","Agregar nueva palabra");
+	}
+
+	function inputAMayuscula(e) {
+		//paso a mayuscula lo que se teclea
+		var letra = e.value;
+		document.getElementById("nueva-palabra").value = letra.toUpperCase();
+	}
+
+	function inputSoloLetras(e) {
+		//permito que solo sean letras lo que se teclea
+		var letra = e.key;
+		if(!/^[A-Z]+$/i.test(letra)){
+			return false;
+		}
+	}
+
+	function BuscarLetra() {
+		if(!horca.hasAttribute("hidden") && !juegoTerminado) { //si el canvas esta visible busco la letra q se presione
+			if(/^[A-Z]+$/i.test(event.key)){ //saber si son solo letras las presionadas.
+				verificarLetra();
+				xPos = 0;
+				var letraEncontrada = false;
+				for (var i = 0; i <= palabraAzar.length - 1; i++) {
+					if(palabraAzar[i]==event.key.toUpperCase()) {
+						dibujo.fillStyle = "black";
+						dibujo.font = "40px Verdana"
+						dibujo.fillText(palabraAzar[i].toUpperCase(), 330+xPos, 440);
+						letraEncontrada = true;
+						if(letranueva) { aciertos++; }
+					}
+					xPos = xPos + 70;
+				}
+				var posX = 0;
+				for(var i = 0; i <= letrasElegidas.length - 1; i++) {
+					dibujo.fillStyle = "red";
+	 				dibujo.font = "20px Verdana"
+	 				dibujo.fillText(letrasElegidas[i], 350+posX, 480);
+	 				posX = posX + 25;
+				}
+
+				if(!letraEncontrada && letranueva) {
+					err++;
+					dibujarHorca();
+				}
+				if(aciertos == palabraAzar.length) {
+					dibujo.beginPath();
+					dibujo.fillStyle = "black";
+					dibujo.font = "35px Verdana"
+					dibujo.fillText("¡ FELICIDADES ACERTASTE !",620,200);
+
+					juegoTerminado = true;
+				}
+			} //
+		}
+	}
+
+function verificarLetra(){
+	letranueva = false;
+	for(var i = 0; i <= letrasElegidas.length - 1; i++) {
+		if(letrasElegidas[i]==event.key.toUpperCase()) { letranueva = false; break; }
+		letranueva = true;
+	}
+	if(letranueva) {
+		 letrasElegidas.push(event.key.toUpperCase());
+	}
+}
+	btnInicio.onclick = Iniciar;
+	btnAgregar.onclick = Agregar;
+	btnCancelarAgregar.onclick = CancelarAgregar;
+	btnNuevaPalabra.onclick = AgregarNewWord;
+	btnNuevoJuego.onclick = Nuevo;
+	btnDesistir.onclick = Desistir;
+
+</script>

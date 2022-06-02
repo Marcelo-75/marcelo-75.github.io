@@ -1,0 +1,308 @@
+*{
+	margin: 0;
+	padding: 0;
+	box-sizing: border-box;
+}
+
+.header{
+	position: absolute;
+	width: 100%;
+	height: 6%; /*ancho del 6% del body*/
+	border: 0px solid #837240;
+	background: #5c90b9;
+}
+
+.logo{
+	position: absolute;
+	top: 5%;
+	left: 10px;
+}
+
+.texto{
+	position: absolute;
+	text-align: center;
+	font-family: "calibri";
+	font-size: 16px;
+	font-style: bold;
+	color: #000000;
+	top: 55%;
+	left: 50px;
+}
+
+.textocabecera{
+	position: relative;
+	text-align: center;
+	font-family: "cooper";
+	font-size: 20px;
+	font-style: bold;
+	color: #000000;
+	top: 25%;
+}
+
+.main-container{
+    position: absolute;
+	top: 6%;/*posicion top respecto del body*/
+	width: 100%;
+	height: 88%;/*ancho del 88% del body*/
+	border: 2px solid #ff0000;
+	background: #E9EDF7;
+}
+
+.logo-alura{
+    position: relative;
+	top: 6%;/*posicion top respecto del body*/
+	left: 5%;
+	width: 5%;
+	height: 8%;/*ancho del 88% del body*/
+	border: 0px solid #ff0000;
+	background: #E9EDF7;
+}
+
+.canvas{
+	position: relative;
+	top: 0%;
+	left: 10%;
+	width: 80%;
+	height: 80%;/*ancho del 88% del body*/
+	border: 0px solid #ff0000;
+}
+
+.abotones{
+	position: relative;
+	display: inline;
+	border: 2px solid #ff00bf;
+	width: 100%;
+	height: 100%;
+	top: 0%;
+	left: 0%;
+	padding-left: 20%;
+	background: none;
+}
+
+/* botones ubicacion*/
+
+.button{
+	background-color: #4CAF50; /* Green */
+    border: none;
+    color: white;
+    padding: 16px 32px;
+    text-align: center;
+    text-decoration: none;
+    font-size: 16px;
+    margin: 3px 2px;
+    -webkit-transition-duration: 0.5s; /* Safari */
+    transition-duration: 0.5s;
+    cursor: pointer;
+}
+
+/* DIV */
+.new-word{
+	position: absolute;
+	top: 40%;
+	left: 40%;
+	width: 25%;
+	height: 20%;/*ancho del 88% del body*/
+	border: 0px solid #ff0000;
+}
+
+/* INPUT */
+.nueva-palabra{
+	position: absolute;
+	background: #E9EDF7;
+	top: 20%;
+	left: 10%;
+	width: 62%;
+	height: 25%;/*ancho del 88% del body*/
+	font-size: 20px;
+	border: 0px solid #ff0000;
+	padding-bottom: 15px;
+	padding: 10px;
+    text-align: center;
+    text-decoration: none;
+}
+
+.nueva-palabra:focus {
+	font-size: 40px;
+	placeholder="";
+}
+
+/* BOTON */
+.btn-guardar-newword{
+	position: absolute;
+	top: 50%;
+	left: 10%;
+	width: 60%;
+	height: 30%;
+	font-size: 13px;
+
+    background-color: #008CFF; /*lindo azul*/
+    color: white; 
+    border: 2px solid #008CBA;
+	border-radius: 15px;
+    text-align: center;
+    text-decoration: none;
+}
+
+.btn-guardar-newword:hover {
+    background-color: white;
+    color: black;
+}
+
+/* BOTON */
+.btn-cancelar{
+	position: absolute;
+	top: 85%;
+	left: 10%;
+	width: 60%;
+	height: 30%;
+	font-size: 13px;
+
+    background-color: #008CFF; /*lindo azul*/
+    color: white; 
+    border: 2px solid #008CBA;
+	border-radius: 15px;
+    text-align: center;
+    text-decoration: none;
+}
+
+.btn-cancelar:hover {
+    background-color: white;
+    color: black;
+}
+
+/* LABEL */
+.max-caracteres{
+	position: absolute;
+	top: 130%;
+	left: 10%;
+	width: 60%;
+	height: 10%;
+	font-size: 11px;
+
+    color: black; 
+    text-align: center;
+	font-family: "calibri";
+}
+
+/* BOTON */
+.btn-inicio {
+	position: absolute;
+    /*background-color: #008CFF; lindo azul*/
+    background-color: #0A3871;
+    color: white; 
+    border: 2px solid #008CBA;
+	top: 30%;
+	left: 40%;
+	border-radius: 15px;
+	width: 20%;
+	height: 15%;
+    text-align: center;
+    text-decoration: none;
+    font-size: 13px;
+}
+
+.btn-inicio:hover {
+    background-color: white;
+    color: black;
+}
+
+/* BOTON */
+.btn-agregar {
+	position: absolute;
+	padding-bottom: : 10px;
+    background-color: white; 
+    color: #0A3871; 
+    border: 2px solid #008CBA;
+	top: 47%;
+	left: 43%;
+	border-radius: 15px;
+	width: 15%;
+	height: 10%;
+    text-align: center;
+    text-decoration: none;
+    font-size: 13px;
+}
+
+.btn-agregar:hover {
+    background-color: #008CFF;
+    color: white;
+}
+
+/* BOTON */
+.btn-nuevo-juego {
+	position: absolute;
+	padding-bottom: : 10px;
+    background-color: white; 
+    color: #0A3871; 
+    border: 2px solid #008CBA;
+	top: 87%;
+	left: 35%;
+	border-radius: 15px;
+	width: 12%;
+	height: 10%;
+    text-align: center;
+    text-decoration: none;
+    font-size: 13px;
+}
+
+.btn-nuevo-juego:hover {
+    background-color: #008CFF;
+    color: white;
+}
+
+/* BOTON */
+.btn-desistir {
+	position: absolute;
+	padding-bottom: : 10px;
+    background-color: white; 
+    color: #0A3871; 
+    border: 2px solid #008CBA;
+	top: 87%;
+	left: 50%;
+	border-radius: 15px;
+	width: 10%;
+	height: 10%;
+    text-align: center;
+    text-decoration: none;
+    font-size: 13px;
+}
+
+.btn-desistir:hover {
+    background-color: #008CFF;
+    color: white;
+}
+
+
+.footer{
+	position: absolute;
+	top: 94%;/*posicion top respecto del body*/
+	width: 100%;
+	height: 6%;/*ancho del 6% del body*/
+	border: 0px solid #837240;
+	background: #abcd;
+}
+
+.footer-cripto{
+	position: absolute;
+	top: 35%;
+	left: 5%;
+	font-size: 12px;
+	font-family: "calibri";
+}
+
+.footer-copy{
+	position: absolute;
+	top: 35%;
+	left: 45%;
+	font-size: 15px;
+	font-family: "calibri";
+}
+
+.footer-contacto{
+	position: absolute;
+	top: 40%;
+	left: 85%;
+	font-size: 12px;
+	font-family: "calibri";
+	font-style: bold;
+}
